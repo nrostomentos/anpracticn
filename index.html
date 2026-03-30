@@ -4,13 +4,33 @@
     <title>Кастомные курсоры с картинками</title>
     <style>
         .custom-cursor {
-            cursor: url('https://example.com/cursor.png'), pointer;
+            /* Пример с реальной картинкой-курсором (зелёная стрелка) */
+            cursor: url('https://cur.cursors-4u.net/cursors/cur-2/cur104.cur'), pointer;
+        }
+        
+        /* Альтернатива — рука с иконкой */
+        .custom-cursor-alt {
+            cursor: url('https://cur.cursors-4u.net/cursors/cur-9/cur819.cur'), pointer;
+            padding: 20px;
+            background: #ddd;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <div class="custom-cursor" style="padding: 20px; background: #f0f0f0;">
-        Элемент с кастомным курсором из изображения
+        Элемент с кастомным курсором (зелёная стрелка)
     </div>
+    
+    <div class="custom-cursor-alt">
+        Альтернативный кастомный курсор
+    </div>
+    
+    <p style="margin-top: 20px;">
+        💡 Если курсор не отображается — проверьте:<br>
+        1. Доступен ли файл по URL<br>
+        2. Поддерживаемый размер (рекомендуется 32x32px)<br>
+        3. Формат (лучше .cur для Windows, .png для кроссбраузерности)
+    </p>
 </body>
 </html>
