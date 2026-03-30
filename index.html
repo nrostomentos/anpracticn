@@ -1,36 +1,596 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
+
 <head>
-    <title>Кастомные курсоры с картинками</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔪 DANGANRONPA | Кастомные курсоры</title>
     <style>
-        .custom-cursor {
-            /* Пример с реальной картинкой-курсором (зелёная стрелка) */
-            cursor: url('https://cur.cursors-4u.net/cursors/cur-2/cur104.cur'), pointer;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        /* Альтернатива — рука с иконкой */
-        .custom-cursor-alt {
-            cursor: url('https://cur.cursors-4u.net/cursors/cur-9/cur819.cur'), pointer;
+
+        :root {
+            --dr-pink: #e6007a;
+            --dr-red: #b52e2e;
+            --dr-black: #1a1a1a;
+            --dr-white: #f8f8f8;
+            --dr-gray: #2e2e2e;
+            --dr-shadow: rgba(0, 0, 0, 0.3);
+            --gradient-dr: linear-gradient(135deg, #e6007a, #b52e2e);
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', 'Impact', 'Arial Black', sans-serif;
+            background: #0a0a0a;
+            color: var(--dr-white);
+            min-height: 100vh;
+            position: relative;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(230, 0, 122, 0.03) 30px, rgba(230, 0, 122, 0.03) 60px);
             padding: 20px;
-            background: #ddd;
+        }
+
+        /* Фон с эффектом */
+        .dr-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 40%, rgba(230, 0, 122, 0.05), transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(181, 46, 46, 0.05), transparent 50%);
+        }
+
+        /* Плавающие элементы */
+        .dr-particle {
+            position: fixed;
+            background: var(--dr-pink);
+            border-radius: 50%;
+            filter: blur(8px);
+            opacity: 0.08;
+            animation: floatParticle 20s infinite ease-in-out;
+            z-index: -1;
+        }
+
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-50px) translateX(30px); }
+        }
+
+        /* Контейнер */
+        .dr-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(26, 26, 26, 0.92);
+            border-radius: 25px;
+            border: 3px solid var(--dr-pink);
+            box-shadow: 10px 10px 0 var(--dr-black);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Заголовок */
+        .dr-header {
+            background: var(--gradient-dr);
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid var(--dr-black);
+        }
+
+        .dr-header::before {
+            content: '🖱️';
+            position: absolute;
+            font-size: 120px;
+            opacity: 0.15;
+            right: -20px;
+            bottom: -30px;
+            pointer-events: none;
+        }
+
+        .dr-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 4px 4px 0 var(--dr-black);
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        .dr-header p {
+            font-size: 1.1em;
+            text-shadow: 2px 2px 0 var(--dr-black);
+            opacity: 0.95;
+        }
+
+        /* Контент */
+        .dr-content {
+            padding: 40px;
+        }
+
+        /* Карточка курсора */
+        .dr-card {
+            background: rgba(26, 26, 26, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 2px solid var(--dr-pink);
+            box-shadow: 6px 6px 0 var(--dr-black);
+            transition: all 0.2s ease;
+        }
+
+        .dr-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 10px 10px 0 var(--dr-black);
+        }
+
+        .dr-card h2 {
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            color: var(--dr-pink);
+            text-shadow: 2px 2px 0 var(--dr-black);
+            font-family: 'Impact', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid var(--dr-pink);
+            padding-left: 15px;
+        }
+
+        /* Демо-область */
+        .demo-area {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border: 2px dashed var(--dr-pink);
+            transition: all 0.2s ease;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .demo-area p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .demo-label {
+            font-family: monospace;
+            color: var(--dr-pink);
+            font-size: 0.9em;
+            background: rgba(230, 0, 122, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Сетка курсоров */
+        .cursors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .cursor-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(230, 0, 122, 0.3);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .cursor-item:hover {
+            border-color: var(--dr-pink);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(230, 0, 122, 0.2);
+        }
+
+        .cursor-item.active {
+            border: 2px solid var(--dr-pink);
+            background: rgba(230, 0, 122, 0.1);
+            box-shadow: 0 0 20px rgba(230, 0, 122, 0.3);
+        }
+
+        .cursor-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--dr-pink);
+        }
+
+        .cursor-preview {
+            width: 50px;
+            height: 50px;
+            margin: 10px auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+        }
+
+        .cursor-code {
+            font-family: monospace;
+            font-size: 0.8em;
+            color: #888;
             margin-top: 10px;
+            word-break: break-all;
+        }
+
+        /* Кнопки */
+        .dr-btn {
+            background: var(--gradient-dr);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            box-shadow: 4px 4px 0 var(--dr-black);
+            transition: all 0.1s linear;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: monospace;
+        }
+
+        .dr-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 var(--dr-black);
+        }
+
+        .dr-btn:hover {
+            background: linear-gradient(135deg, #ff1a8c, #cc3b3b);
+        }
+
+        /* Инфо-блок */
+        .info-block {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border-left: 4px solid var(--dr-pink);
+        }
+
+        .info-block h3 {
+            color: var(--dr-pink);
+            margin-bottom: 10px;
+        }
+
+        .info-block ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .info-block li {
+            margin: 8px 0;
+        }
+
+        /* Футер */
+        footer {
+            margin-top: 20px;
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid var(--dr-pink);
+        }
+
+        footer div {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-footer {
+            background: var(--gradient-dr);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 4px 4px 0 var(--dr-black);
+            transition: all 0.1s linear;
+            display: inline-block;
+            font-size: 0.9em;
+        }
+
+        .btn-footer:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 var(--dr-black);
+        }
+
+        .btn-footer:hover {
+            background: linear-gradient(135deg, #ff1a8c, #cc3b3b);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .dr-container {
+                margin: 0;
+            }
+            .dr-header h1 {
+                font-size: 1.8em;
+            }
+            .dr-content {
+                padding: 20px;
+            }
+            .demo-area {
+                padding: 30px 20px;
+            }
+            .cursors-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="custom-cursor" style="padding: 20px; background: #f0f0f0;">
-        Элемент с кастомным курсором (зелёная стрелка)
-    </div>
+    <div class="dr-bg"></div>
     
-    <div class="custom-cursor-alt">
-        Альтернативный кастомный курсор
+    <!-- Плавающие элементы -->
+    <div class="dr-particle" style="width: 250px; height: 250px; top: -80px; right: -80px;"></div>
+    <div class="dr-particle" style="width: 180px; height: 180px; bottom: 50px; left: -60px; animation-duration: 25s;"></div>
+    <div class="dr-particle" style="width: 120px; height: 120px; top: 40%; right: 5%; animation-duration: 18s;"></div>
+
+    <div class="dr-container">
+        <div class="dr-header">
+            <h1>🔪 КАСТОМНЫЕ КУРСОРЫ</h1>
+            <p>Академия Надежды | Классный суд курсоров</p>
+        </div>
+
+        <div class="dr-content">
+            <!-- Демо-область для тестирования курсоров -->
+            <div class="dr-card">
+                <h2>🖱️ ТЕСТ-ЗОНА</h2>
+                <div class="demo-area" id="demoArea">
+                    <p>✨ Наведи на меня мышкой ✨</p>
+                    <div class="demo-label" id="currentCursorLabel">Текущий курсор: По умолчанию</div>
+                    <p style="font-size: 0.9em; opacity: 0.7;">⬇️ Выбери курсор ниже ⬇️</p>
+                </div>
+            </div>
+
+            <!-- Выбор курсоров -->
+            <div class="dr-card">
+                <h2>🎲 ДОСТУПНЫЕ КУРСОРЫ</h2>
+                <div class="cursors-grid" id="cursorsGrid">
+                    <!-- Курсоры будут добавлены через JS -->
+                </div>
+            </div>
+
+            <!-- Информационный блок -->
+            <div class="info-block">
+                <h3>💡 SORE WA CHIGAU YO! (Это не так!)</h3>
+                <ul>
+                    <li>🔪 <strong>Формат .cur</strong> — стандартный курсор Windows (рекомендуется 32x32px)</li>
+                    <li>🌹 <strong>Формат .png/.svg</strong> — для кроссбраузерности (лучше использовать с CSS)</li>
+                    <li>💀 <strong>Альтернатива</strong> — можно использовать эмодзи или SVG через <code>cursor: url(), auto;</code></li>
+                    <li>⚡ <strong>Совет</strong> — всегда добавляй fallback (auto, pointer, grab) после URL</li>
+                </ul>
+            </div>
+
+            <!-- Кнопка сброса -->
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="dr-btn" id="resetCursorBtn" onclick="resetCursor()">
+                    🔪 СБРОСИТЬ КУРСОР
+                </button>
+            </div>
+        </div>
     </div>
-    
-    <p style="margin-top: 20px;">
-        💡 Если курсор не отображается — проверьте:<br>
-        1. Доступен ли файл по URL<br>
-        2. Поддерживаемый размер (рекомендуется 32x32px)<br>
-        3. Формат (лучше .cur для Windows, .png для кроссбраузерности)
-    </p>
+
+    <footer>
+        <div>
+            <a href="https://github.com/nrostomentos" class="btn-footer">🐙 GitHub</a>
+            <a href="https://t.me/swn_f" class="btn-footer">📱 Telegram</a>
+        </div>
+        <div style="margin-top: 15px; font-size: 0.7em; opacity: 0.5;">
+            ⚡ 希望ヶ峰学園 | SORE WA CHIGAU YO! ⚡
+        </div>
+    </footer>
+
+    <script>
+        // Коллекция курсоров в стиле Danganronpa
+        const cursors = [
+            {
+                name: "🔪 Розовая кровь",
+                emoji: "🔪",
+                cursorUrl: "https://cur.cursors-4u.net/cursors/cur-2/cur104.cur",
+                fallback: "pointer",
+                description: "Классическая зелёная стрелка"
+            },
+            {
+                name: "🌹 Рука отчаяния",
+                emoji: "🌹",
+                cursorUrl: "https://cur.cursors-4u.net/cursors/cur-9/cur819.cur",
+                fallback: "pointer",
+                description: "Рука с иконкой"
+            },
+            {
+                name: "💀 Монокума",
+                emoji: "🐻",
+                cursorUrl: "https://cur.cursors-4u.net/cursors/cur-12/cur1169.cur",
+                fallback: "pointer",
+                description: "Мишка Монокума"
+            },
+            {
+                name: "⚡ Ультимативный",
+                emoji: "⚡",
+                cursorUrl: "https://cur.cursors-4u.net/cursors/cur-2/cur103.cur",
+                fallback: "crosshair",
+                description: "Перекрестие надежды"
+            },
+            {
+                name: "🎲 Классный суд",
+                emoji: "🎲",
+                cursorUrl: "https://cur.cursors-4u.net/cursors/cur-12/cur1170.cur",
+                fallback: "help",
+                description: "Вопросительный знак"
+            }
+        ];
+
+        let currentCursor = null;
+
+        // Функция применения курсора к demo-области
+        function applyCursor(cursor) {
+            const demoArea = document.getElementById('demoArea');
+            const label = document.getElementById('currentCursorLabel');
+            
+            if (cursor && cursor.cursorUrl) {
+                demoArea.style.cursor = `url('${cursor.cursorUrl}'), ${cursor.fallback}`;
+                label.innerHTML = `Текущий курсор: ${cursor.name} ${cursor.emoji}`;
+                currentCursor = cursor;
+                
+                // Эффект "кровавой" вспышки
+                createFlashEffect();
+                
+                // Лог в консоль
+                console.log(`%c🔪 КУРСОР ИЗМЕНЁН: ${cursor.name} 🔪`, 'color: #e6007a; font-size: 12px; font-weight: bold;');
+            }
+        }
+
+        // Функция сброса курсора
+        function resetCursor() {
+            const demoArea = document.getElementById('demoArea');
+            const label = document.getElementById('currentCursorLabel');
+            
+            demoArea.style.cursor = 'auto';
+            label.innerHTML = 'Текущий курсор: По умолчанию';
+            currentCursor = null;
+            
+            // Убираем активный класс со всех элементов
+            document.querySelectorAll('.cursor-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Эффект
+            createResetEffect();
+            
+            console.log('%c💀 КУРСОР СБРОШЕН | ВОЗВРАЩЕНИЕ К ОТЧАЯНИЮ 💀', 'color: #b52e2e; font-size: 12px; font-weight: bold;');
+        }
+
+        // Эффект вспышки при смене курсора
+        function createFlashEffect() {
+            const flash = document.createElement('div');
+            flash.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle, rgba(230, 0, 122, 0.1), transparent);
+                pointer-events: none;
+                z-index: 9999;
+                animation: flashFade 0.3s ease-out forwards;
+            `;
+            
+            if (!document.querySelector('#flashStyle')) {
+                const style = document.createElement('style');
+                style.id = 'flashStyle';
+                style.textContent = `
+                    @keyframes flashFade {
+                        0% { opacity: 1; }
+                        100% { opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 300);
+        }
+
+        // Эффект сброса
+        function createResetEffect() {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.style.cssText = `
+                        position: fixed;
+                        width: ${Math.random() * 20 + 5}px;
+                        height: ${Math.random() * 20 + 5}px;
+                        background: radial-gradient(circle, #b52e2e, #e6007a);
+                        border-radius: 50%;
+                        top: ${Math.random() * 100}vh;
+                        left: ${Math.random() * 100}vw;
+                        animation: resetParticle 0.8s ease-out forwards;
+                        pointer-events: none;
+                        z-index: 9998;
+                        filter: blur(2px);
+                    `;
+                    
+                    if (!document.querySelector('#resetStyle')) {
+                        const style = document.createElement('style');
+                        style.id = 'resetStyle';
+                        style.textContent = `
+                            @keyframes resetParticle {
+                                0% { transform: scale(0); opacity: 0.8; }
+                                100% { transform: scale(1.5); opacity: 0; }
+                            }
+                        `;
+                        document.head.appendChild(style);
+                    }
+                    
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 800);
+                }, i * 50);
+            }
+        }
+
+        // Генерация сетки курсоров
+        function generateCursorsGrid() {
+            const grid = document.getElementById('cursorsGrid');
+            grid.innerHTML = '';
+            
+            cursors.forEach((cursor, index) => {
+                const item = document.createElement('div');
+                item.className = 'cursor-item';
+                if (currentCursor && currentCursor.name === cursor.name) {
+                    item.classList.add('active');
+                }
+                item.onclick = () => {
+                    applyCursor(cursor);
+                    // Обновляем активный класс
+                    document.querySelectorAll('.cursor-item').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    item.classList.add('active');
+                };
+                
+                item.innerHTML = `
+                    <div class="cursor-preview">${cursor.emoji}</div>
+                    <div class="cursor-name">${cursor.name}</div>
+                    <div class="cursor-code">${cursor.description}</div>
+                    <div style="font-size: 0.7em; margin-top: 8px; opacity: 0.5;">${cursor.cursorUrl.split('/').pop()}</div>
+                `;
+                
+                grid.appendChild(item);
+            });
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            generateCursorsGrid();
+            
+            // Применяем первый курсор по умолчанию (опционально)
+            // applyCursor(cursors[0]);
+            
+            console.log('%c🔪 DANGANRONPA | КАСТОМНЫЕ КУРСОРЫ ЗАГРУЖЕНЫ 🔪', 'color: #e6007a; font-size: 14px; font-weight: bold;');
+            console.log('%c💀 SORE WA CHIGAU YO! 💀', 'color: #b52e2e; font-size: 12px; font-style: italic;');
+        });
+    </script>
 </body>
+
 </html>
